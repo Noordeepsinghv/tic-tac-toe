@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Tic Tac Toe</title>
+</head>
+<body>
+    <header>
+        <div id="titleDiv">
+            <h1 id="title">Tic Tac Toe</h1>
+        </div>
+    </header>
+    <main>
+        <div id="playArea">
+            <div class="c1 cols">
+                <div id="sq1" class="sqes"></div>
+                <div id="sq2" class="sqes"></div>
+                <div id="sq3" class="sqes"></div>
+            </div>
+            <div class="c2 cols">
+                <div id="sq4" class="sqes"></div>
+                <div id="sq5" class="sqes"></div>
+                <div id="sq6" class="sqes"></div>
+            </div>
+            <div class="c3 cols">
+                <div id="sq7" class="sqes"></div>
+                <div id="sq8" class="sqes"></div>
+                <div id="sq9" class="sqes"></div>
+            </div>
+        </div>
+        <div id="playerInfo">
+            <div id="player1" class="players">
+                <i class="fa-solid fa-xmark fa-2xl" style="color: rgb(24, 49, 83);"></i>
+                <span class="playerSpan">Player1</span>
+            </div>
+            <div id="player2" class="players">
+                <i class="fa-solid fa-o fa-2xl" style="color: rgb(24, 49, 83);"></i>
+                <span class="playerSpan">Player2</span>
+            </div>
+            <div id="turnIndicator"></div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="https://kit.fontawesome.com/374211dff5.js" crossorigin="anonymous"></script>
+</body>
+</html>

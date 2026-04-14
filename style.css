@@ -1,0 +1,147 @@
+:root {
+    --lines-border: 20px;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+header {
+    width: 100%;
+}
+
+#titleDiv {
+    text-align: center;
+}
+
+#title {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#playArea {
+    position: absolute;
+    width: 310px;
+    height: 310px;
+    border: 1px dashed grey;
+    border-radius: 10px;
+    display: flex;
+    justify-self: center;
+    justify-content: center;
+    flex-direction: row;
+    overflow: hidden;
+    background-color: aliceblue;
+}
+
+.cols {
+    width: 100%;
+    height: 33.33333%;
+    flex-direction: column;
+}
+
+#sq1 {
+    border-right: 5px solid grey;
+    border-bottom: 5px solid grey;
+}
+#sq2 {
+    border-right: 5px solid grey;
+}
+#sq3 {
+    border-top: 5px solid grey;
+    border-right: 5px solid grey;
+}
+#sq4 {
+    border-bottom: 5px solid grey;
+} 
+#sq6 {
+    border-top: 5px solid grey;
+}
+#sq7 {
+    border-left: 5px solid grey;
+    border-bottom: 5px solid grey;
+}
+#sq8 {
+    border-left: 5px solid grey;
+}
+#sq9 {
+    border-top: 5px solid grey;
+    border-left: 5px solid grey;
+}
+
+
+.sqes {
+    /* z-index: 1; */
+    height: 100px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 5em;
+}
+
+#playerInfo {
+    width: 310px;
+    height: 60px;
+    border-radius: 10px;
+    border: 1px solid grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 410px;
+    left: 50%;
+    transform: translateX(-50%);
+    justify-content: space-evenly;
+    overflow: hidden;
+
+}
+
+.players {
+    width: 45%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 2.5%;
+    z-index: 2;
+}
+
+.playerSpan {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2em;
+    font-weight: 600;
+    overflow: scroll;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    margin-left: 2.5%;
+    background: transparent;
+    cursor: pointer;
+}
+
+#turnIndicator {
+    z-index: 2;
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(128, 128, 128, 0.25);
+    left: 0%;
+    /* border: 2px solid rgba(255, 255, 255, 0.35); */
+    box-sizing: border-box;
+    border-radius: 10px;
+    transition: left 0.25s ease-in-out;
+    cursor: pointer;
+}
+
+.hasCross::before {
+    content: "\f00d";
+    font-family: "Font Awesome 7 Free";
+    font-weight: 900;
+    display: inline-block;
+}
+
+.hasCircle::before {
+    content: "\4f";
+    font-family: "Font Awesome 7 Free";
+    font-weight: 900;
+    display: inline-block;
+}
