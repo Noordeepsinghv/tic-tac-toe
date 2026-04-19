@@ -116,6 +116,7 @@ header {
     margin-left: 2.5%;
     background: transparent;
     cursor: pointer;
+    display: inline;
 }
 
 #turnIndicator {
