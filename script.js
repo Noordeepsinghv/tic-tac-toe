@@ -8,10 +8,6 @@ function getSqeNumberFromId(id) {
     return match ? Number(match[0]) : null;
 }
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 function checkWin(arrX, arrO) {
     const [a, b, c] = matchPattern(arrX);
     const [d, e, f] = matchPattern(arrO);
@@ -88,19 +84,14 @@ Array.from(sqes).forEach((sqe) => {
         const sqA = document.getElementById(a);
         const sqB = document.getElementById(b);
         const sqC = document.getElementById(c);
-        const className = symbol === "x" ? "hasCross" : "hasCircle";
 
-        await sleep(250);
-        for (let i = 0; i < 5; i++) {
-            sqA.classList.remove(className);
-            sqB.classList.remove(className);
-            sqC.classList.remove(className);
-            await sleep(250);
-            sqA.classList.add(className);
-            sqB.classList.add(className);
-            sqC.classList.add(className);
-            await sleep(250);
-        }
+
+        sqA.classList.add("winnerFlash");
+        sqB.classList.add("winnerFlash");
+        sqC.classList.add("winnerFlash");
+
+
+
 	});
 });
 
