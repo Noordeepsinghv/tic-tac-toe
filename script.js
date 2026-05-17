@@ -2,24 +2,27 @@ const sqes = document.getElementsByClassName("sqes");
 const players = document.getElementsByClassName("players");
 const turnIndicator = document.getElementById("turnIndicator");
 let playerTurn = 1;
+const activeXs = [];
+const activeOs = [];
+
 
 function getSqeNumberFromId(id) {
     const match = id.match(/\d$/);
     return match ? Number(match[0]) : null;
 }
 
-function checkWin(arrX, arrO) {
-    const [a, b, c] = matchPattern(arrX);
-    const [d, e, f] = matchPattern(arrO);
-    if (a !== -1) {
-        return ['sq'+a, 'sq'+b, 'sq'+c, "x"];
-    } else if (d !== -1) {
-        return ['sq'+d, 'sq'+e, 'sq'+f, "o"];
-    } else {
-        return [-1, -1, -1, -1];
-    }
+function getActiveSquares() {
+    
+    Array.from(sqes).forEach((sqe) => {
+        const sqeNumber = getSqeNumberFromId(sqe.id);
+        if (sqe.classList.contains("hasCircle") === true) {
+            activeOs.push(sqeNumber);
+        } else if (sqe.classList.contains("hasCross") === true) {
+            activeXs.push(sqeNumber);
+        }
+    });
+    return { activeXs, activeOs };
 }
-
 
 function matchPattern(arr) {
     if (arr.length < 3) {
@@ -46,66 +49,79 @@ function matchPattern(arr) {
     return [-1, -1, -1];
 }
 
+function checkWin(arrX, arrO) {
+    const [a, b, c] = matchPattern(arrX);
+    const [d, e, f] = matchPattern(arrO);
+    if (a !== -1) {
+        return ['sq'+a, 'sq'+b, 'sq'+c, "x"];
+    } else if (d !== -1) {
+        return ['sq'+d, 'sq'+e, 'sq'+f, "o"];
+    } else {
+        return [-1, -1, -1, -1];
+    }
+}
+
+function markWinningSquares(idA, idB, idC) {
+    const sqA = document.getElementById(idA);
+    const sqB = document.getElementById(idB);
+    const sqC = document.getElementById(idC);
+    if (sqA) sqA.classList.add("winnerFlash");
+    if (sqB) sqB.classList.add("winnerFlash");
+    if (sqC) sqC.classList.add("winnerFlash");
+}
+
+async function handleSquareClick(sqEvent) {
+    // console.log("Clicked:", sqEvent.currentTarget.id);
+    const sq = document.getElementById(sqEvent.currentTarget.id);
+
+    if (playerTurn === 1 && sq.classList.contains("hasCircle") === false && sq.classList.contains("hasCross") === false) {
+        playerTurn = 2;
+        sq.classList.add("hasCross");
+        turnIndicator.style.left = "50%";
+
+    } else if (playerTurn === 2 && sq.classList.contains("hasCross") === false && sq.classList.contains("hasCircle") === false) {
+        playerTurn = 1;
+        sq.classList.add("hasCircle");
+        turnIndicator.style.left = "0%";
+    }
+
+    const { activeXs, activeOs } = getActiveSquares();
+
+    const [a, b, c, symbol] = checkWin(activeXs, activeOs);
+    console.log(a, b, c, symbol);
+
+    if (symbol === -1) {
+        return;
+    }
+
+    markWinningSquares(a, b, c);
+}
+
 Array.from(sqes).forEach((sqe) => {
-    sqe.addEventListener("click", async (sqEvent) => {
-		console.log("Clicked:", sqEvent.currentTarget.id);
-        const sq = document.getElementById(sqEvent.currentTarget.id);
-        
-        if (playerTurn === 1 && sq.classList.contains("hasCircle") === false && sq.classList.contains("hasCross") === false) {
-            playerTurn = 2;
-            sq.classList.add("hasCross");
-            turnIndicator.style.left = "50%";
-
-        } else if (playerTurn === 2 && sq.classList.contains("hasCross") === false && sq.classList.contains("hasCircle") === false) {
-            playerTurn = 1;
-            sq.classList.add("hasCircle");
-            turnIndicator.style.left = "0%";
-        }
-
-        let activeXs = [];
-        let activeOs = [];
-        Array.from(sqes).forEach((sqe) => {
-            const sqeNumber = getSqeNumberFromId(sqe.id);
-            if (sqe.classList.contains("hasCircle") === true) {
-                activeOs.push(sqeNumber);
-            } else if (sqe.classList.contains("hasCross") === true) {
-                activeXs.push(sqeNumber);
-            }
-        })
-
-        
-        const [a, b, c, symbol] = checkWin(activeXs, activeOs);
-        console.log(a, b, c, symbol);
-
-        if (symbol === -1) {
-            return;
-        }
-
-        const sqA = document.getElementById(a);
-        const sqB = document.getElementById(b);
-        const sqC = document.getElementById(c);
-
-
-        sqA.classList.add("winnerFlash");
-        sqB.classList.add("winnerFlash");
-        sqC.classList.add("winnerFlash");
-
-
-
-	});
+    sqe.addEventListener("click", handleSquareClick);
 });
 
 
-// Array.from(players).forEach((player) => {
-//     player.addEventListener("click", (playerClickEvent) => {
-//         console.log("Clicked:", playerClickEvent.currentTarget.id);
-//         if (playerClickEvent.currentTarget.id === "player1") {
-//             turnIndicator.style.left = "0%";
-//             playerTurn = 1;
-//         } else if (playerClickEvent.currentTarget.id === "player2") {
-//             turnIndicator.style.left = "50%";
-//             playerTurn = 2;
-//         }
-//     });
-// });
+function handlePlayerSwitch(playerClickEvent){
+    // console.log("Clicked:", playerClickEvent.currentTarget.id);
+    const playerSpan = document.getElementsByClassName("playerSpan");
+    if (activeOs.length === 0  && activeXs.length === 0) {    
+        if (playerClickEvent.currentTarget.id === "player1") {
+            turnIndicator.style.left = "0%";
+            playerSpan[0].contentEditable = "true";
+            playerTurn = 1;
+        } else if (playerClickEvent.currentTarget.id === "player2") {
+            turnIndicator.style.left = "50%";
+            playerSpan[1].contentEditable = "true";
+            playerTurn = 2;
+        }
 
+    } else {
+        playerSpan[0].contentEditable = "false";
+        playerSpan[1].contentEditable = "false";
+    }
+}
+
+Array.from(players).forEach((player) => {
+    player.addEventListener("click", handlePlayerSwitch);
+});
